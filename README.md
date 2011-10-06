@@ -1,6 +1,6 @@
-# redis-chat
+# redis-authorization
 
-...
+A simple level based authorization system built on redis.
 
 ## Instalation
 
@@ -12,7 +12,7 @@ information...
       "name": "yourapplication",
       "verson": "0.1.0",
       "dependencies": {
-        "redis-authorization": "0.0.0"
+        "redis-authorization": "0.1.0"
       }
     }
 
@@ -22,11 +22,11 @@ Then run the following command using npm...
 
 OR, if you just want to start playing with the library run...
 
-    npm install redis-chat
+    npm install redis-authorization
 
 ## Docs
 
-    set(resource, user, level, callback)
+    grant(resource, user, level, callback)
     remove(resource, user, callback)
     authorzations(resource, callback)
     authorzationsByLevel(resource, callback)
