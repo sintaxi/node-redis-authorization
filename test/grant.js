@@ -1,7 +1,10 @@
 var testCase = require('nodeunit').testCase
 
+var redis = require("redis")
+var client = redis.createClient()
+
 var redisAuthorization = require("../redis-authorization")
-var auth = new redisAuthorization.Client()
+var auth = redisAuthorization(client)
 
 module.exports = testCase({
 
@@ -27,12 +30,8 @@ module.exports = testCase({
   },
 
   "cleanup": function(test){
-    var redis = require("redis")
-    var client = redis.createClient()
     client.flushall()
     client.quit()
-
-    auth.quit()
     test.done()
   }
 
