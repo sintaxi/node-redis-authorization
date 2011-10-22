@@ -26,12 +26,86 @@ OR, if you just want to start playing with the library run...
 
 ## Docs
 
-    grant(resource, user, level, callback)
-    remove(resource, user, callback)
-    authorzations(resource, callback)
-    authorzationsByLevel(resource, callback)
-    permissions(user, callback)
-    permissionsByLevel(user, callback)
+### require `redis-authorization` and pass in a redis (or nedis) client.
+
+    var redis  = require("redis")
+    var client = redis.createClient() 
+    var auth   = require("redis-authorization")(client) 
+
+### grant(resource, user, level, callback)
+
+Adds a user to a resource at a specified auhtorization level.
+
+    auth.grant("project:12", "uid:7", 3, function(reply){
+      console.log(reply) // returns true
+    })
+
+### revoke(resource, user, callback)
+
+Removes user from having access to a resource.
+
+    auth.revoke("project:12", "uid:7", function(reply){
+      console.log(reply) // returns true
+    })
+
+### authorizations(resource, callback)
+
+Takes a resource and a callback and return the users that have acces to the
+resource with thier permission level.
+
+    auth.authorzations("project:12", function(reply){
+      console.log(reply)
+      // returns
+      // {
+      //   "uid:88": 3,
+      //   "uid:49": 1,
+      //   "uid:18": 2,
+      //   "uid:73": 2
+      // }
+    })
+
+### authorizationsByLevel(resource, callback)
+
+Same as `auhtorizations()` but returns object by permissions level.
+
+    auth.authorzationsByLevel("project:12", function(reply){
+      console.log(reply)
+      // returns
+      // {
+      //   1: [ "uid:49" ],
+      //   2: [ "uid:18", "uid:73" ],
+      //   3: [ "uid:88" ]
+      // }
+    })
+
+### permissions(user, callback)
+
+Accepts a user and returns all the resources along with permission level.
+
+    auth.permissions("uid:27", function(reply){
+      console.log(reply)
+      // returns
+      // {
+      //   "project:4": 3,
+      //   "project:7": 1,
+      //   "project:6": 2,
+      //   "project:2": 2
+      // }
+    }) 
+
+### auth.permissionsByLevel(user, callback)
+
+Similar to `permissions()` but returns users permissions by level.
+
+    auth.permissionsByLevel("uid:27", function(reply){
+      console.log(reply)
+      // returns
+      // {
+      //   1: [ "project:7" ],
+      //   2: [ "project:6", "project:2" ],
+      //   3: [ "project:4" ]
+      // }
+    }) 
 
 ## License
 
