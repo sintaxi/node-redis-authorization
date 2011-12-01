@@ -12,7 +12,7 @@ information...
       "name": "yourapplication",
       "verson": "0.1.0",
       "dependencies": {
-        "redis-authorization": "0.2.0"
+        "redis-authorization": "0.3.0"
       }
     }
 
