@@ -25,7 +25,7 @@ module.exports = function(client){
         var obj = {}
 
         for(var i=0; i < (reply.length / 2); i++)(function(i){
-          obj[reply[i * 2]] = reply[i * 2 + 1]
+          obj[reply[i * 2]] = parseInt(reply[i * 2 + 1])
         })(i)
 
         cb(obj)
@@ -51,7 +51,7 @@ module.exports = function(client){
         var obj = {}
 
         for(var i=0; i < (reply.length / 2); i++)(function(i){
-          obj[reply[i * 2]] = reply[i * 2 + 1]
+          obj[reply[i * 2]] = parseInt(reply[i * 2 + 1])
         })(i)
 
         cb(obj)

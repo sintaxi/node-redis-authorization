@@ -1,38 +1,35 @@
-var testCase = require('nodeunit').testCase
+var should = require("should")
 
-var redis = require("redis")
-var client = redis.createClient()
+describe('grant', function(){
+  var redis = require("redis")
+  var redisAuthorization = require("../redis-authorization")
+  var client = redis.createClient()
+  var auth = redisAuthorization(client)
 
-var redisAuthorization = require("../redis-authorization")
-var auth = redisAuthorization(client)
-
-module.exports = testCase({
-
-  "should grant permission to level 2": function(test) {
+  it('should grant permission to level 2', function(done){
     auth.grant("project:12", "brock", 2, function(reply){
-      test.ok(reply)
-      test.done()
+      should.exist(reply)
+      done()
     })
-  },
+  })
 
-  "should change permission to level 3": function(test) {
+  it('should change permission to level 3', function(done){
     auth.grant("project:12", "brock", 3, function(reply){
-      test.ok(reply)
-      test.done()
+      should.exist(reply)
+      done()
     })
-  },
+  })
 
-  "should have brock as level 3": function(test) {
+  it("should have brock as level 3", function(done) {
     auth.authorizations("project:12", function(reply){
-      test.deepEqual(reply, {"brock": 3})
-      test.done()
+      reply.should.eql({"brock": 3})
+      done()
     })
-  },
+  })
 
-  "cleanup": function(test){
+  after(function(){
     client.flushall()
     client.quit()
-    test.done()
-  }
+  })
 
 })

@@ -1,38 +1,35 @@
-var testCase = require('nodeunit').testCase
+var should = require('should')
 
-var redis = require("redis")
-var client = redis.createClient()
+describe('revoke', function(){
+  var redis = require("redis")
+  var client = redis.createClient()
+  var redisAuthorization = require("../redis-authorization")
+  var auth = redisAuthorization(client)
 
-var redisAuthorization = require("../redis-authorization")
-var auth = redisAuthorization(client)
-
-module.exports = testCase({
-
-  "should grant bob level 2 on building": function(test) {
+  it("should grant bob level 2 on building", function(done) {
     auth.grant("building:12", "bob", 2, function(reply){
-      test.ok(reply)
-      test.done()
+      reply.should.be.true
+      done()
     })
-  },
+  })
 
-  "should revoke bob on project 12": function(test) {
+  it("should revoke bob on project 12", function(done) {
     auth.revoke("building:12", "bob", function(reply){
-      test.ok(reply)
-      test.done()
+      reply.should.be.true
+      done()
     })
-  },
+  })
 
-  "should not have any permissions on bob": function(test){
+  it("should not have any permissions on bob", function(done){
     auth.permissions("bob", function(reply){
-      test.deepEqual(reply, {})
-      test.done()
+      reply.should.eql({})
+      done()
     })
-  },
+  })
 
-  "cleanup": function(test){
+  after(function(){
     client.flushall()
     client.quit()
-    test.done()
-  }
+  })
 
 })
