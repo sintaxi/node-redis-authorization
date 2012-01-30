@@ -8,15 +8,15 @@
     "authorization"
   ],
   "main": "./redis-authorization.js",
-  "scripts": { "test": "./node_modules/.bin/nodeunit test" },
+  "scripts": { "test": "./node_modules/.bin/mocha test/*" },
   "repository": { 
     "type": "git",
     "url": "https://github.com/sintaxi/node-redis-authorization.git"
   },
   "dependencies": { "redis": "0.6.7" },
   "devDependencies": { 
-    "mocha": "",
-    "should":""
+    "mocha": "0.10.2",
+    "should":"0.5.1"
   },
   "engines": { "node": "*" },
   "licenses" : [ 
